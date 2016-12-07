@@ -54,6 +54,8 @@ int main( int argc, char *argv[] )
         //double fitnessArray[THREADS];
         Tour fitnessArray[THREADS];
 
+        cout << "Thinking" << flush;
+
         #pragma omp parallel for num_threads(THREADS)
         for (int i = 0; i < THREADS; i++)
         {
@@ -88,49 +90,6 @@ int main( int argc, char *argv[] )
         {
             cout << "Tour " << count << ": " << fitnessArray[count].getFitness(givenCities) << endl;
         }
-        
-        // Population *pop = new Population();
-
-        // cout << "Thinking" << flush;
-
-        // double bestDistance = 0.0;
-        // int gen = 0;
-
-        // int count = 0;
-        // Genetic_Algorithm ga;
-        // for (int i = 0; i < generations; i++)
-        // {
-        //     cout << "." << flush;
-        //     if(count >= 300)
-        //     {
-        //         break;
-        //     }
-            
-        //     ga.getNewPopulation(pop, givenCities);
-        //     if(bestDistance == 0.0 || bestDistance > pop->getFittest(givenCities).getFitness(givenCities))
-        //     {
-        //         bestDistance = pop->getFittest(givenCities).getFitness(givenCities);
-        //         // cout << "New Best distance: " << bestDistance << " - generation: " << gen << endl;
-        //         count = 0;
-        //     }
-
-        //     count++;
-        //     gen++;
-        // }
-
-        // cout << "\nI'm Done!" << endl;
-        // cout << "Distance of Fittest Path: " << pop->getFittest(givenCities).getFitness(givenCities) << endl;
-        //print out path
-
-        // for(int i = 0; i < 100; i++)
-        // {
-        //     cout << pop->getFittest(givenCities).getCity(i);
-        //     if(i != 99)
-        //         cout << ", ";
-        // }
-        // cout << endl;
-
-        // delete pop;
 
     }
 	return 0;
@@ -157,7 +116,6 @@ Tour getFittestTour(Cities givenCities, int generations)
         if(bestDistance == 0.0 || bestDistance > pop->getFittest(givenCities).getFitness(givenCities))
         {
             bestDistance = pop->getFittest(givenCities).getFitness(givenCities);
-            // cout << "New Best distance: " << bestDistance << " - generation: " << gen << endl;
             count = 0;
         }
 
@@ -165,7 +123,7 @@ Tour getFittestTour(Cities givenCities, int generations)
         gen++;
     }
 
-    Tour returnValue = pop->getFittest(givenCities); //.getFitness(givenCities);
+    Tour returnValue = pop->getFittest(givenCities);
 
     delete pop;
 
