@@ -7,6 +7,10 @@
 
 using namespace std;
 
+/* Tour
+ * fill tour with index numbers that will be used to reference cities
+ * shuffle the order of the index numbers
+ */
 Tour::Tour()
 {
     for (int i = 0; i < tour.size(); i++)
@@ -20,6 +24,9 @@ Tour::Tour()
     this->fitness = 0.0;
 }
 
+/* Tour
+ * fill tour with '-1' instead of index numbers to be used as an empty tour
+ */
 Tour::Tour(int nullConstructor)
 {
     for (int i = 0; i < tour.size(); i++)
@@ -30,6 +37,9 @@ Tour::Tour(int nullConstructor)
     this->fitness = 0.0;
 }
 
+/* getFitness
+ * return the fitness of the tour
+ */
 double Tour::getFitness(Cities cities)
 {
     double tmpDistance = 0.0;
@@ -47,21 +57,33 @@ double Tour::getFitness(Cities cities)
     return this->fitness;
 }
 
+/* getCity
+ * return the city number at the tour position
+ */
 int Tour::getCity(int tourPosition)
 {
     return tour[tourPosition];
 }
 
+/* setCity
+ * set the city number to the tour position
+ */
 void Tour::setCity(int tourPosition, int city)
 {
     tour[tourPosition] = city;
 }
 
+/* getSize
+ * return the size of the tour
+ */
 int Tour::getSize()
 {
     return tour.size();
 }
 
+/* checkPosition
+ * check to see if tour position is empty (-1)
+ */
 bool Tour::checkPosition(int index)
 {
     if (tour[index] == -1)

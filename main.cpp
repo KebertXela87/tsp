@@ -51,17 +51,19 @@ int main( int argc, char *argv[] )
     	Cities givenCities(filename);
 
         int THREADS = 8;
-        //double fitnessArray[THREADS];
+        
         Tour fitnessArray[THREADS];
 
         cout << "Thinking" << flush;
 
+        // create multiple instances of the genetic algorithm
         #pragma omp parallel for num_threads(THREADS)
         for (int i = 0; i < THREADS; i++)
         {
             fitnessArray[i] = getFittestTour(givenCities, generations);
         }
-        
+
+        // find the fittest tour of the results
         int fittestTourNum = 0;
         double fittestTour = fitnessArray[0].getFitness(givenCities);
         for (int j = 1; j < THREADS; j++)
@@ -73,9 +75,9 @@ int main( int argc, char *argv[] )
             }
         }
 
+        // print out fittest tour distance and path
         cout << "\nI'm Done!" << endl;
         cout << "Distance of Fittest Path: " << fittestTour << endl;
-        //print out path
 
         for(int i = 0; i < 100; i++)
         {
@@ -84,19 +86,19 @@ int main( int argc, char *argv[] )
                 cout << ", ";
         }
         cout << endl;
-
-        //TEST Print out each result
-        for(int count = 0; count < THREADS; count++)
-        {
-            cout << "Tour " << count << ": " << fitnessArray[count].getFitness(givenCities) << endl;
-        }
-
     }
 	return 0;
 }
 
+/* function: getFittestTour
+ *
+ * creates a population and runs a genetic algorithm for a number of generations.
+ *
+ * returns the fittest Tour of the population
+ */
 Tour getFittestTour(Cities givenCities, int generations) 
 {   
+    // create new population
     Population *pop = new Population();
 
     double bestDistance = 0.0;
@@ -107,7 +109,9 @@ Tour getFittestTour(Cities givenCities, int generations)
     for (int i = 0; i < generations; i++)
     {
         cout << "." << flush;
-        if(count >= 300)
+
+        // if after 50 generations, no new "best distance" is found - break
+        if(count >= 50)
         {
             break;
         }

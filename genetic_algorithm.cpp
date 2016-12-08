@@ -4,6 +4,9 @@
 
 using namespace std;
 
+/* Genetic_Algorithm
+ * sets some variables
+ */
 Genetic_Algorithm::Genetic_Algorithm()
 {
 	this->MAX_RANDOM = 10000;
@@ -11,6 +14,9 @@ Genetic_Algorithm::Genetic_Algorithm()
 	this->THREADS = 8;
 }
 
+/* getNewPopulation
+ * creates a new population base on the current one
+ */
 void Genetic_Algorithm::getNewPopulation(Population * pop, Cities cities)
 {
 	pop->setTour(0, pop->getFittest(cities));
@@ -21,13 +27,15 @@ void Genetic_Algorithm::getNewPopulation(Population * pop, Cities cities)
 		pop->setTour(i, crossover(pop, cities));
 	}
 
-	// #pragma omp parallel for schedule(guided) num_threads(THREADS)
 	for(int i = 0; i < pop->getSize(); i++)
 	{
 		mutate(pop->getTour(i), cities);
 	}
 }
 
+/* getParent
+ * get a parent tour by looking at 10 random tours and returning the fittest one
+ */
 Tour Genetic_Algorithm::getParent(Population * pop, Cities cities)
 {
 	double fittestParent = 0.0;
@@ -55,6 +63,9 @@ Tour Genetic_Algorithm::getParent(Population * pop, Cities cities)
 	return pop->getTour(fittestParentNumber);
 }
 
+/* crossover
+ * create a child tour by combining parts of one tour with another
+ */
 Tour Genetic_Algorithm::crossover(Population * pop, Cities cities)
 {
 	// get two random parent tours
@@ -122,9 +133,11 @@ Tour Genetic_Algorithm::crossover(Population * pop, Cities cities)
 	return child;
 }
 
+/* mutate
+ * loop through the tour and randomly swap cities in the tour
+ */
 void Genetic_Algorithm::mutate(Tour tour, Cities cities)
 {
-	// cout << "------------------ Start of Tour Swap ------------------" << endl;
 	// loop through each city in tour
 	for (int i = 0; i < tour.getSize(); i++)
 	{
@@ -137,12 +150,8 @@ void Genetic_Algorithm::mutate(Tour tour, Cities cities)
 			int j = (int) rand() % tour.getSize();
 
 			// swap cities
-			// cout << "Swapping " << tour.getCity(i) << " and " << tour.getCity(j)
-			// 	<< " Positions: " << i << " and " << j << endl;
 			tour.setCity(j, tour.getCity(i));
 			tour.setCity(i, tour.getCity(j));
 		}
 	}
-
-	// cout << "Tour: " << tour.getFitness(cities) << endl;
 }
